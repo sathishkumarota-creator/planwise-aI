@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ kind_label }} planner{% endblock %}
+{% block content %}
+<header class="page-head">
+  <div>
+    <h1><i class="fa-solid fa-couch"></i> {{ kind_label }} planner</h1>
+    <p class="page-head__sub">Tell us what the home needs; we size the budget around it.</p>
+  </div>
+</header>
+
+<form id="plannerForm" class="panel stack" data-kind="home">
+  <div class="grid-2">
+    <label class="field">
+      <span>Total budget (₹)</span>
+      <input class="input" type="number" name="budget" min="1000" max="100000000" step="100" value="50000" required>
+    </label>
+    <div class="field">
+      <span>Rooms in scope</span>
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" name="rooms" value="living_room" checked><span>Living room</span></label>
+        <label class="toggle"><input type="checkbox" name="rooms" value="kitchen" checked><span>Kitchen</span></label>
+        <label class="toggle"><input type="checkbox" name="rooms" value="bedroom"><span>Bedroom</span></label>
+      </div>
+    </div>
+  </div>
+
+  <fieldset class="grid-4">
+    <label class="field"><span><i class="fa-solid fa-lightbulb"></i> Lights</span>
+      <input class="input" type="number" name="light_count" min="0" max="200" value="5"></label>
+    <label class="field"><span><i class="fa-solid fa-fan"></i> Fans</span>
+      <input class="input" type="number" name="fan_count" min="0" max="100" value="2"></label>
+    <label class="field"><span><i class="fa-solid fa-chair"></i> Furniture</span>
+      <input class="input" type="number" name="furniture_count" min="0" max="100" value="1"></label>
+    <label class="field"><span><i class="fa-solid fa-utensils"></i> Dining tables</span>
+      <input class="input" type="number" name="dining_table_count" min="0" max="20" value="0"></label>
+  </fieldset>
+
+  <label class="field">
+    <span>Preferences or constraints <small>(optional)</small></span>
+    <textarea class="input" name="notes" rows="2" maxlength="1000" placeholder="e.g. warm lighting, avoid glass tables, prefers teak wood"></textarea>
+  </label>
+
+  <div class="form-foot">
+    <p class="form-foot__hint" data-error role="alert" hidden></p>
+    <button class="btn btn--primary btn--lg" type="submit">Generate plan <i class="fa-solid fa-wand-magic-sparkles"></i></button>
+  </div>
+</form>
+
+<section id="result" class="result" hidden></section>
+{% endblock %}

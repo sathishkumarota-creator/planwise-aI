@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<header class="page-head">
+  <div>
+    <h1>Your plans</h1>
+    <p class="page-head__sub">{{ plans|length }} saved plan{{ '' if plans|length == 1 else 's' }}</p>
+  </div>
+  <a class="btn btn--ghost" href="/api/plans/export.csv"><i class="fa-solid fa-file-csv"></i> Export CSV</a>
+</header>
+
+<nav class="filters">
+  <a class="chip {{ 'chip--on' if not active_kind }}" href="/history">All <span>{{ plans|length + (counts['home'] or 0)*0 + (counts['event'] or 0)*0 + (counts['jewelry'] or 0)*0 }}</span></a>
+  {% for kind in ['home', 'event', 'jewelry'] %}
+  <a class="chip {{ 'chip--on' if active_kind == kind }}" href="/history?kind={{ kind }}">
+    {{ {'home': 'Home', 'event': 'Event', 'jewelry': 'Jewelry'}[kind] }} <span>{{ counts[kind] }}</span>
+  </a>
+  {% endfor %}
+</nav>
+
+{% if plans %}
+<ul class="plan-list">
+  {% for plan in plans %}
+  <li class="plan-list__item">
+    <span class="kind-chip kind-chip--{{ plan.kind }}"><i class="fa-solid fa-{{ {'home': 'couch', 'event': 'champagne-glasses', 'jewelry': 'gem'}[plan.kind] }}"></i> {{ plan.kind }}</span>
+    <div class="plan-list__meta">
+      <strong>{{ plan.title }}</strong>
+      <span>Budget {{ plan.budget|inr }} · planned {{ plan.planned_total|inr }} · {{ plan.created_at.strftime('%d %b %Y, %H:%M') }}</span>
+    </div>
+    <div class="plan-list__actions">
+      <button class="btn btn--ghost btn--sm js-view-plan" data-plan-id="{{ plan.id }}">Details</button>
+      <button class="btn btn--danger btn--sm js-delete-plan" data-plan-id="{{ plan.id }}" aria-label="Delete plan"><i class="fa-solid fa-trash"></i></button>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">Nothing here yet. <a href="/planners/home">Plan something</a> and it will show up here.</p>
+{% endif %}
+{% endblock %}

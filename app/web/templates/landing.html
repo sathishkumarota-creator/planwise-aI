@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Smart budget planning{% endblock %}
+{% block content %}
+<section class="hero">
+  <span class="hero__badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Catalog + AI planning, offline-capable</span>
+  <h1>Plan the purchase.<br>Then spend with confidence.</h1>
+  <p class="hero__sub">
+    PlanWise splits your budget across what you actually need, suggests realistic items with
+    Indian market prices, and links you straight to the right marketplace search.
+  </p>
+  <div class="hero__actions">
+    <a class="btn btn--primary btn--lg" href="/register">Create a free account <i class="fa-solid fa-arrow-right"></i></a>
+    <a class="btn btn--ghost btn--lg" href="/login">I already have one</a>
+  </div>
+</section>
+
+<section id="planners" class="cards">
+  <article class="card card--tint-home">
+    <div class="card__icon"><i class="fa-solid fa-couch"></i></div>
+    <h3>Home interiors</h3>
+    <p>Lighting, fans, furniture, and dining sized to your rooms and your budget - with a reserve held back for installation.</p>
+    <a class="btn btn--primary btn--block" href="/register?next=/planners/home">Start planning</a>
+  </article>
+  <article class="card card--tint-event">
+    <div class="card__icon"><i class="fa-solid fa-champagne-glasses"></i></div>
+    <h3>Events & parties</h3>
+    <p>Venue, catering, decor, and music allocated per guest - so per-head cost is a decision, not a surprise.</p>
+    <a class="btn btn--primary btn--block" href="/register?next=/planners/event">Start planning</a>
+  </article>
+  <article class="card card--tint-jewelry">
+    <div class="card__icon"><i class="fa-solid fa-gem"></i></div>
+    <h3>Jewelry & occasions</h3>
+    <p>Occasion-weighted sets - necklace, earrings, bangle, ring - optionally matched to your outfit photo.</p>
+    <a class="btn btn--primary btn--block" href="/register?next=/planners/jewelry">Start planning</a>
+  </article>
+</section>
+
+<section class="strip">
+  <div class="strip__item"><strong>Allocation-first</strong><span>see the split before the items</span></div>
+  <div class="strip__item"><strong>Reserve aware</strong><span>never plan to 100% of budget</span></div>
+  <div class="strip__item"><strong>Works offline</strong><span>catalog mode needs no API key</span></div>
+</section>
+{% endblock %}

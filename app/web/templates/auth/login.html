@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<div class="auth">
+  <h1>Welcome back</h1>
+  <p class="auth__sub">Sign in to reach your plans.</p>
+  {% if error %}<div class="alert alert--error"><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</div>{% endif %}
+  <form method="post" action="/login" class="stack">
+    <label class="field">
+      <span>Username</span>
+      <input class="input" name="username" autocomplete="username" required maxlength="64" autofocus>
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input class="input" type="password" name="password" autocomplete="current-password" required>
+    </label>
+    <button class="btn btn--primary btn--block" type="submit">Sign in <i class="fa-solid fa-arrow-right"></i></button>
+  </form>
+  <p class="auth__foot">New here? <a href="/register">Create an account</a></p>
+</div>
+{% endblock %}

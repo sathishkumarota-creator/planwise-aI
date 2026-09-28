@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Something needs attention{% endblock %}
+{% block content %}
+<div class="auth">
+  <h1>{{ message }}</h1>
+  {% if fields %}
+  <ul class="alert alert--error">
+    {% for item in fields %}<li>{{ item }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  <a class="btn btn--primary" href="/dashboard">Back to dashboard</a>
+</div>
+{% endblock %}

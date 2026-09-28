@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ kind_label }} planner{% endblock %}
+{% block content %}
+<header class="page-head">
+  <div>
+    <h1><i class="fa-solid fa-champagne-glasses"></i> {{ kind_label }} planner</h1>
+    <p class="page-head__sub">Budget per head, not per guess.</p>
+  </div>
+</header>
+
+<form id="plannerForm" class="panel stack" data-kind="event">
+  <div class="grid-3">
+    <label class="field">
+      <span>Total budget (₹)</span>
+      <input class="input" type="number" name="budget" min="1000" max="100000000" step="100" value="30000" required>
+    </label>
+    <label class="field">
+      <span>Guests</span>
+      <input class="input" type="number" name="guest_count" min="1" max="5000" value="30" required>
+    </label>
+    <label class="field">
+      <span>Occasion</span>
+      <input class="input" name="event_type" list="eventTypeOptions" maxlength="40" value="Birthday" required>
+      <datalist id="eventTypeOptions">
+        <option value="Birthday"></option><option value="Wedding"></option>
+        <option value="Corporate meetup"></option><option value="Anniversary"></option>
+        <option value="Housewarming"></option><option value="Farewell"></option>
+      </datalist>
+    </label>
+  </div>
+
+  <div class="grid-2">
+    <label class="field">
+      <span>Venue</span>
+      <select class="input" name="venue">
+        <option value="home">At home</option>
+        <option value="banquet_hall">Banquet hall</option>
+        <option value="hotel">Hotel</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="outdoor">Outdoor</option>
+      </select>
+    </label>
+    <div class="field">
+      <span>Include</span>
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" name="include_catering" checked><span>Catering</span></label>
+        <label class="toggle"><input type="checkbox" name="include_decor" checked><span>Decor</span></label>
+        <label class="toggle"><input type="checkbox" name="include_entertainment" checked><span>Entertainment</span></label>
+      </div>
+    </div>
+  </div>
+
+  <label class="field">
+    <span>Notes <small>(optional)</small></span>
+    <textarea class="input" name="notes" rows="2" maxlength="1000" placeholder="e.g. vegetarian menu, evening event, need a cake"></textarea>
+  </label>
+
+  <div class="form-foot">
+    <p class="form-foot__hint" data-error role="alert" hidden></p>
+    <button class="btn btn--primary btn--lg" type="submit">Generate plan <i class="fa-solid fa-wand-magic-sparkles"></i></button>
+  </div>
+</form>
+
+<section id="result" class="result" hidden></section>
+{% endblock %}

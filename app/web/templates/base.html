@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PlanWise{% endblock %} · PlanWise</title>
+  <link rel="stylesheet" href="/static/planwise.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script>
+    // Apply saved theme before first paint to avoid a flash.
+    if (localStorage.getItem("pw-theme") === "dark") {
+      document.documentElement.dataset.theme = "dark";
+    }
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__brand" href="{{ '/dashboard' if user else '/' }}">
+      <span class="nav__brand-mark"><i class="fa-solid fa-compass"></i></span>
+      PlanWise
+    </a>
+    <ul class="nav__links">
+      {% if user %}
+        <li><a href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li><a href="/planners/home"><i class="fa-solid fa-couch"></i> Home</a></li>
+        <li><a href="/planners/event"><i class="fa-solid fa-champagne-glasses"></i> Event</a></li>
+        <li><a href="/planners/jewelry"><i class="fa-solid fa-gem"></i> Jewelry</a></li>
+        <li><a href="/history"><i class="fa-solid fa-clock-rotate-left"></i> History</a></li>
+      {% else %}
+        <li><a href="/#planners"><i class="fa-solid fa-compass"></i> Planners</a></li>
+      {% endif %}
+    </ul>
+    <div class="nav__actions">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      {% if user %}
+        <a class="btn btn--ghost btn--sm" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out</a>
+      {% else %}
+        <a class="btn btn--ghost btn--sm" href="/login">Sign in</a>
+        <a class="btn btn--primary btn--sm" href="/register">Get started</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <span>PlanWise — plan first, buy smart.</span>
+    <span class="footer__hint">Estimates are indicative; confirm prices on the linked marketplaces.</span>
+  </footer>
+
+  <div class="modal" id="reportModal" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__panel" role="dialog" aria-modal="true">
+      <header class="modal__head">
+        <h2 id="reportModalTitle">Plan details</h2>
+        <button class="icon-btn" type="button" data-close-modal aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="modal__body" id="reportModalBody"></div>
+    </div>
+  </div>
+
+  <script src="/static/planwise.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

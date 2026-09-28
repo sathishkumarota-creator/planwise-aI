@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<header class="page-head">
+  <div>
+    <h1>Namaste, {{ user.display_name or user.username }}</h1>
+    <p class="page-head__sub">Pick a planner or pick up where you left off.</p>
+  </div>
+  <a class="btn btn--ghost" href="/history"><i class="fa-solid fa-clock-rotate-left"></i> Full history</a>
+</header>
+
+<section class="cards">
+  {% for kind, icon, title, blurb in [
+    ("home", "couch", "Home interiors", "Lights, fans, furniture, dining - scaled to your budget with a reserve."),
+    ("event", "champagne-glasses", "Events & parties", "Per-guest catering, venue options, decor and music."),
+    ("jewelry", "gem", "Jewelry", "Occasion-weighted sets, optionally matched to an outfit photo."),
+  ] %}
+  <article class="card card--tint-{{ kind }}">
+    <div class="card__icon"><i class="fa-solid fa-{{ icon }}"></i></div>
+    <h3>{{ title }}</h3>
+    <p>{{ blurb }}</p>
+    <a class="btn btn--primary btn--block" href="/planners/{{ kind }}">Open planner</a>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="panel">
+  <div class="panel__head">
+    <h2><i class="fa-solid fa-wave-square"></i> Recent plans</h2>
+    <a class="btn btn--ghost btn--sm" href="/history">View all</a>
+  </div>
+  {% if recent %}
+    <ul class="plan-list">
+      {% for plan in recent %}
+      <li class="plan-list__item">
+        <span class="kind-chip kind-chip--{{ plan.kind }}"><i class="fa-solid fa-{{ {'home': 'couch', 'event': 'champagne-glasses', 'jewelry': 'gem'}[plan.kind] }}"></i> {{ plan.kind }}</span>
+        <div class="plan-list__meta">
+          <strong>{{ plan.title }}</strong>
+          <span>{{ plan.budget|inr }} budget · planned {{ plan.planned_total|inr }} · {{ plan.created_at.strftime('%d %b %Y, %H:%M') }}</span>
+        </div>
+        <button class="btn btn--ghost btn--sm js-view-plan" data-plan-id="{{ plan.id }}">Details</button>
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">No plans yet - open a planner above to create your first one.</p>
+  {% endif %}
+</section>
+{% endblock %}

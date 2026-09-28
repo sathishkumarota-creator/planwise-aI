@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Environment & secrets
+.env
+
+# Local runtime data (SQLite database, uploaded photos, legacy JSON store)
+data/
+
+# Tooling & logs
+.freebuff/
+server.log
+server.err
