@@ -61,13 +61,19 @@ class Settings:
             if origin.strip()
         ]
         api_key = (os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY") or "").strip() or None
+        # Vercel's deployed filesystem is read-only except for /tmp.
+        # Keep the default local layout for normal servers, but move ephemeral
+        # runtime state to /tmp when running as a Vercel function.
+        on_vercel = os.getenv("VERCEL", "").strip().lower() == "1"
+        runtime_dir = os.path.join("/tmp", "planwise") if on_vercel else "data"
         return cls(
             secret_key=os.getenv("SECRET_KEY", _DEFAULT_SECRET),
             token_ttl_minutes=_int_env("TOKEN_TTL_MINUTES", 120),
             host=os.getenv("HOST", "0.0.0.0"),
             port=_int_env("PORT", 8000),
-            db_path=os.getenv("DB_PATH", os.path.join("data", "planwise.sqlite3")),
-            upload_dir=os.getenv("UPLOAD_DIR", os.path.join("data", "uploads")),
+            data_dir=os.getenv("DATA_DIR", runtime_dir),
+            db_path=os.getenv("DB_PATH", os.path.join(runtime_dir, "planwise.sqlite3")),
+            upload_dir=os.getenv("UPLOAD_DIR", os.path.join(runtime_dir, "uploads")),
             upload_max_bytes=_int_env("UPLOAD_MAX_BYTES", 5 * 1024 * 1024),
             gemini_api_key=api_key,
             gemini_model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
