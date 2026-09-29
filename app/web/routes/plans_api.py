@@ -94,6 +94,22 @@ async def export_csv(user: UserView = Depends(require_api_user)):
     )
 
 
+@router.get("/photos/{photo_id}")
+async def serve_outfit_photo(
+    photo_id: str,
+    user: UserView = Depends(require_api_user),
+):
+    """Authenticated proxy for uploaded photos (they are not publicly served)."""
+    from fastapi.responses import FileResponse
+
+    from ...uploads import resolve_upload_path
+
+    path = resolve_upload_path(photo_id)
+    if not path:
+        raise HTTPException(404, "Photo not found.")
+    return FileResponse(path)
+
+
 @router.get("/{plan_id}")
 async def plan_details(plan_id: str, user: UserView = Depends(require_api_user)):
     record = plan_repo.get(user.username, plan_id)
@@ -129,20 +145,6 @@ async def upload_outfit_photo(
     return {"photo_id": photo_id}
 
 
-@router.get("/photos/{photo_id}")
-async def serve_outfit_photo(
-    photo_id: str,
-    user: UserView = Depends(require_api_user),
-):
-    """Authenticated proxy for uploaded photos (they are not publicly served)."""
-    from fastapi.responses import FileResponse
-
-    from ...uploads import resolve_upload_path
-
-    path = resolve_upload_path(photo_id)
-    if not path:
-        raise HTTPException(404, "Photo not found.")
-    return FileResponse(path)
 
 
 def _default_title(kind: str) -> str:
